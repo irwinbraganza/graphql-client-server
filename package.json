@@ -1,0 +1,33 @@
+{
+  "name": "graphql-client-server",
+  "version": "1.0.0",
+  "description": "graphql client server architecture",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "server": "nodemon --watch 'server/**/*' -e ts,tsx --exec ts-node ./server/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/irwinbraganza/graphql-client-server.git"
+  },
+  "author": "Irwin Braganza",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/irwinbraganza/graphql-client-server/issues"
+  },
+  "homepage": "https://github.com/irwinbraganza/graphql-client-server#readme",
+  "dependencies": {
+    "apollo-server-koa": "^2.6.7",
+    "graphql": "^14.4.0",
+    "koa": "^2.7.0",
+    "koa-router": "^7.4.0"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.0.48",
+    "@types/koa-router": "^7.0.41",
+    "nodemon": "^1.19.1",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.2"
+  }
+}
