@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Layout from '../components/Layout'
 
 const AboutPage: React.FunctionComponent = () => (
-  <Layout title="About | OPS">
+  <Layout title="About | Operations">
     <h1>About</h1>
     <p>We are the best tech saavy people your gonna meet!</p>
   </Layout>

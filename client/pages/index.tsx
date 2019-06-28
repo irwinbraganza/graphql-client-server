@@ -5,7 +5,7 @@ import Layout from '../components/layout'
 
 const IndexPage: React.FunctionComponent = () => {
     return (
-        <Layout title="Home | OPS">
+        <Layout title="Home | Operations">
             <h1>hello client</h1>
         </Layout>        
     )
