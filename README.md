@@ -1,2 +1,8 @@
-# graphql-client-server
-graphql client server architecture
+# Graphql client-server
+
+Graphql client server architecture
+
+```
+npm i
+npm run server
+```
