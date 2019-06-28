@@ -1,25 +1,72 @@
-const Koa = require('koa');
-const { ApolloServer, gql } = require('apollo-server-koa');
+import * as Koa from 'koa';
+// const { typeDefs } = require("./typeDefs");
+// const { resolvers } = require("./resolvers");
+const dev = process.env.NODE_ENV !== "production";
+const next = require("next");
+const Router = require("koa-router");
+const { ApolloServer, gql } = require("apollo-server-koa");
+const graphiql = require("koa-graphiql").default;
 
-// Construct a schema, using GraphQL schema language
-const typeDefs = gql`
+const schema = gql`
   type Query {
     hello: String
   }
-`;
+`
 
-// Provide resolver functions for your schema fields
-const resolvers = {
-  Query: {
-    hello: () => 'Hello world!!'
+const port = parseInt(process.env.PORT, 10) || 3000;
+const app = next({ dev, dir: './client' });
+const handle = app.getRequestHandler();
+const graphQLServer = new ApolloServer({
+  typeDefs: schema,
+  resolvers: {
+    Query: {hello: () => 'hello server'},
   },
-};
+  
+  // Make graphql playgroud available at /graphql
+  playground: {
+    endpoint: "/graphql"
+  },
+  bodyParser: true
+});
 
-const server = new ApolloServer({ typeDefs, resolvers });
+// const graphQLServer = new ApolloServer({
+//   typeDefs,
+//   resolvers,
+//   // Make graphql playgroud available at /graphql
+//   playground: {
+//     endpoint: "/graphql"
+//   },
+//   bodyParser: true
+// });
 
-const app = new Koa();
-server.applyMiddleware({ app });
+app.prepare().then(() => {
+  const server = new Koa();
+  const router = new Router();
 
-app.listen({ port: 4000 }, () =>
-  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`),
-);
+  graphQLServer.applyMiddleware({
+    app: server
+  });
+
+  // If you prefer graphiql over graphql playground
+  router.get(
+    "/graphiql",
+    graphiql(async (ctx:any) => ({
+      url: "/graphql"
+    }))
+  );
+
+  router.get("*", async (ctx:any) => {
+    if (!ctx.path.match(/graphql/)) {
+      await handle(ctx.req, ctx.res);
+      ctx.respond = false;
+    }
+  });
+
+  server.use(router.routes());
+
+  server.listen(port, () => {
+    console.log(`> Ready on http://localhost:${port}`);
+    console.log(`> GraphiQL IDE available on http://localhost:${port}/graphiql`);
+    console.log(`> GraphQL Server (And GraphQL Playground) ready at http://localhost:${port}${graphQLServer.graphqlPath}`);
+  });
+});

@@ -4,9 +4,13 @@
         "target": "es2017",
         "noImplicitAny": true,
         "outDir": "./dist",
-        "sourceMap": true
+        "sourceMap": true,
     },
+    "exclude": [
+        "node_modules"
+    ],
     "include": [
-        "./server/**/*"
+        "**/*.ts",
+        "**/*.tsx"
     ]
 }
