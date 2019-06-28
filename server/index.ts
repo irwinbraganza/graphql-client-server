@@ -1,43 +1,22 @@
 import * as Koa from 'koa';
-// const { typeDefs } = require("./typeDefs");
-// const { resolvers } = require("./resolvers");
+const { typeDefs, resolvers } = require("./schema");
 const dev = process.env.NODE_ENV !== "production";
 const next = require("next");
 const Router = require("koa-router");
 const { ApolloServer, gql } = require("apollo-server-koa");
 const graphiql = require("koa-graphiql").default;
 
-const schema = gql`
-  type Query {
-    hello: String
-  }
-`
-
 const port = parseInt(process.env.PORT, 10) || 3000;
 const app = next({ dev, dir: './client' });
 const handle = app.getRequestHandler();
 const graphQLServer = new ApolloServer({
-  typeDefs: schema,
-  resolvers: {
-    Query: {hello: () => 'hello server'},
-  },
-  
-  // Make graphql playgroud available at /graphql
+  typeDefs,
+  resolvers,
   playground: {
     endpoint: "/graphql"
   },
   bodyParser: true
 });
-
-// const graphQLServer = new ApolloServer({
-//   typeDefs,
-//   resolvers,
-//   // Make graphql playgroud available at /graphql
-//   playground: {
-//     endpoint: "/graphql"
-//   },
-//   bodyParser: true
-// });
 
 app.prepare().then(() => {
   const server = new Koa();
