@@ -21,7 +21,7 @@
     "@types/lodash": "^4.14.135",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-typescript": "^1.1.1",
-    "apollo-server-koa": "^2.6.7",
+    "apollo-server-koa": "^2.14.2",
     "file-loader": "^4.0.0",
     "graphql": "^14.4.0",
     "koa": "^2.7.0",
